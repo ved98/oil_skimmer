@@ -4,9 +4,11 @@ os.system ("sudo pigpiod") #Launching GPIO library
 time.sleep(1) # As i said it is too impatient and so if this delay is removed you will get an error
 import pigpio
 
-ESC=4  #Connect the ESC in this GPIO pin 
+ESC1=4
+ESC2=17 
 pi = pigpio.pi();
-pi.set_servo_pulsewidth(ESC, 0)
+pi.set_servo_pulsewidth(ESC1, 0)
+pi.set_servo_pulsewidth(ESC2, 0)
 
 max_value = 2000 
 min_value = 700
@@ -14,14 +16,18 @@ min_value = 700
 print("Disconnect the battery and press Enter")
 inp = raw_input()
 if inp == '':
-    pi.set_servo_pulsewidth(ESC, max_value)
+    pi.set_servo_pulsewidth(ESC1, max_value)
+    pi.set_servo_pulsewidth(ESC2, max_value)
     print("Connect the battery NOW.. you will here two beeps, then wait for a gradual falling tone then press Enter")
     inp = raw_input()
     if inp == '':            
-        pi.set_servo_pulsewidth(ESC, min_value)
+        pi.set_servo_pulsewidth(ESC1, min_value)
+        pi.set_servo_pulsewidth(ESC2, min_value)
         time.sleep(12)
-        pi.set_servo_pulsewidth(ESC, 0)
+        pi.set_servo_pulsewidth(ESC1, 0)
+        pi.set_servo_pulsewidth(ESC2, 0)
         time.sleep(2)
-        pi.set_servo_pulsewidth(ESC, min_value)
+        pi.set_servo_pulsewidth(ESC1, min_value)
+        pi.set_servo_pulsewidth(ESC2, min_value)
         time.sleep(1)
 print("Calibrated")
