@@ -12,13 +12,12 @@ pi = pigpio.pi();
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(servo, GPIO.OUT)
 
-
-
 front =7.5
 left=5.0
 right=10.0
 fspeed =1300
 tspeed=1000
+
 p = GPIO.PWM(servo, 50)
 GPIO.setup(servo, GPIO.OUT)
 pi.set_servo_pulsewidth(ESC1, 0)
