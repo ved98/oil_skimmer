@@ -4,8 +4,8 @@ import pigpio
 import RPi.GPIO as GPIO
 import time
 
-ESC1=4
-ESC2=17 
+ESC1=17
+ESC2=4 
 servo = 3
 
 pi = pigpio.pi();
@@ -15,8 +15,8 @@ GPIO.setup(servo, GPIO.OUT)
 front =7.5
 left=5.0
 right=10.0
-fspeed =1300
-tspeed=1000
+fspeed =900
+tspeed=780
 
 p = GPIO.PWM(servo, 50)
 GPIO.setup(servo, GPIO.OUT)
@@ -41,9 +41,10 @@ def STOP():
 
 def FRONT():
 	p.ChangeDutyCycle(front)
-	pi.set_servo_pulsewidth(ESC1, fspeed)
 	pi.set_servo_pulsewidth(ESC2, fspeed)
-
+	pi.set_servo_pulsewidth(ESC1, fspeed)
+        #time.sleep(20)
+        
 while True:
 	inp = raw_input()
 	if inp == "w":
