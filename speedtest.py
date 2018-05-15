@@ -16,16 +16,5 @@ min_value = 700
 print("enter speed between 700 to 2000")
 while True:
     inp = raw_input()
-    print("your inp %d" , inp )
-##    if inp == 0:
-##        print(1)
-##        pi.set_servo_pulsewidth(ESC1, 0)
-##        pi.set_servo_pulsewidth(ESC2, 0)
-##    	pi.stop()
-##    if inp>=700 and inp<=2000:
-    print(2)
     pi.set_servo_pulsewidth(ESC1,inp)
     pi.set_servo_pulsewidth(ESC2,inp)
-##    else:
-##        print(3)
-##    	break
