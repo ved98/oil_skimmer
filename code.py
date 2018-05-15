@@ -6,10 +6,10 @@ import time
 import cv2
 import sys
 import numpy as np
-# import skimage.measure
+import skimage.measure
 
 def readImage(): 
-    img = cv2.imread(sys.argv[1], 1) # load image, 1 means load in RGB format
+    img = cv2.imread("test.jpg", 1) # load image, 1 means load in RGB format
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV) # convert to hsv
 
     lower_range = np.array([0, 0, 150], dtype=np.uint8) #lower bound of color to detect
@@ -20,6 +20,7 @@ def readImage():
     kernel = np.ones((7,7),np.uint8)
     mask = cv2.dilate(mask,kernel,iterations = 2)
     mask = cv2.medianBlur(mask, 15)
+    mask = skimage.measure.block_reduce(mask, (5, 5), np.max)
     rows = mask.shape[0]
     cols = mask.shape[1]
     print rows
@@ -41,11 +42,12 @@ def readImage():
     print total
     print total >= rows*cols/4
     print rows*cols/4
+    cv2.imwrite(sys.argv[1] + "_mask.jpg", mask)
     return res
     # mask = skimage.measure.block_reduce(mask, (5, 5), np.max)
 
     # cv2.imshow('mask',mask)
-    cv2.imwrite(sys.argv[1] + "_mask.jpg", mask)
+    
     # cv2.imshow('image', img)
 
     # while(1):
@@ -56,13 +58,16 @@ def readImage():
     # cv2.destroyAllWindows()
 
 
-ESC1=4
+ESC1=18
 ESC2=17 
 servo = 3
+camera =8 
 
 pi = pigpio.pi();
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(servo, GPIO.OUT)
+GPIO.setup(camera, GPIO.OUT)
+
 
 front =7.5
 left=5.0
@@ -71,10 +76,11 @@ fspeed =1300
 tspeed=1000
 
 p = GPIO.PWM(servo, 50)
-GPIO.setup(servo, GPIO.OUT)
+c = GPIO.PWM(camera, 50)
 pi.set_servo_pulsewidth(ESC1, 0)
 pi.set_servo_pulsewidth(ESC2, 0)
 p.start(front)
+c.start(front)
 
 def LEFT():
 	p.ChangeDutyCycle(left)
@@ -96,14 +102,17 @@ def FRONT():
 	pi.set_servo_pulsewidth(ESC1, fspeed)
 	pi.set_servo_pulsewidth(ESC2, fspeed)
 
+angles = array[7.5,8.5,9.5,10.5,11.5,12.5,6.5,5.5,4.5,3.5,2.5]
+ptr=0
 while True:
-	inp = raw_input()
-	if inp == "w":
-	    FRONT()
-	elif inp == "a":
-	    LEFT()
-	elif inp == "d":
-	    RIGHT()
-	elif inp == "s":
-	    STOP()
+    p.ChangeDutyCycle(angles[ptr])
+    os.system("raspistill -m -o test.jpg")
+    res=readImage()
+    if res:
+        FRONT()
+    else :
+        ptr+=1
+    if ptr == len(angles):
+        ptr=0
+	
 	
