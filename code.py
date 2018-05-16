@@ -27,6 +27,7 @@ left=5.0
 right=10.0
 fspeed =1300
 tspeed=1000
+inm=0
 
 p = GPIO.PWM(servo, 50)
 c = GPIO.PWM(camera, 50)
@@ -36,8 +37,10 @@ p.start(front)
 c.start(front)
 
 def readImage(stream): 
+    global inm
     data=np.fromstring(stream.getvalue(), dtype=np.uint8)
     img=cv2.imdecode(data,1)
+    cv2.imwrite(str(inm)+"test.jpg", img)
     #img = cv2.imread("test.jpg", 1) # load image, 1 means load in RGB format
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV) # convert to hsv
 
@@ -49,7 +52,7 @@ def readImage(stream):
     kernel = np.ones((7,7),np.uint8)
     mask = cv2.dilate(mask,kernel,iterations = 2)
     mask = cv2.medianBlur(mask, 15)
-    mask = skimage.measure.block_reduce(mask, (5, 5), np.max)
+    #mask = skimage.measure.block_reduce(mask, (5, 5), np.max)
     rows = mask.shape[0]
     cols = mask.shape[1]
     print rows
@@ -71,7 +74,9 @@ def readImage(stream):
     print total
     print total >= rows*cols/4
     print rows*cols/4
-    cv2.imwrite("test_mask.jpg", mask)
+    
+    cv2.imwrite(str(inm)+"test_mask.jpg", mask)
+    inm+=1
     return res
     # mask = skimage.measure.block_reduce(mask, (5, 5), np.max)
 
@@ -108,6 +113,7 @@ def FRONT():
 
 angles = np.array([7.5,8.5,9.5,10.5,11.5,12.5,6.5,5.5,4.5,3.5,2.5])
 ptr=0
+inm=0
 with picamera.PiCamera() as cam1:
     cam1.resolution = (200,200)
     cam1.start_preview()
