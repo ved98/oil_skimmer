@@ -6,6 +6,7 @@ import time
 
 ESC1=17
 ESC2=18 
+ESC3=27
 servo = 3
 
 pi = pigpio.pi();
@@ -15,32 +16,44 @@ GPIO.setup(servo, GPIO.OUT)
 front =7.5
 left=5.0
 right=10.0
-fspeed =1500
-tspeed=1500
+fspeed =780
+tspeed=780
+rspeed=780
 
 p = GPIO.PWM(servo, 50)
 GPIO.setup(servo, GPIO.OUT)
 pi.set_servo_pulsewidth(ESC1, 0)
 pi.set_servo_pulsewidth(ESC2, 0)
+pi.set_servo_pulsewidth(ESC3, 0)
 p.start(front)
 
 def LEFT():
 	p.ChangeDutyCycle(left)
 	pi.set_servo_pulsewidth(ESC1, 0)
+	pi.set_servo_pulsewidth(ESC3, rspeed)
 	pi.set_servo_pulsewidth(ESC2, tspeed)
 
 def RIGHT():
 	p.ChangeDutyCycle(right)
 	pi.set_servo_pulsewidth(ESC1, tspeed)
+	pi.set_servo_pulsewidth(ESC3, rspeed)
 	pi.set_servo_pulsewidth(ESC2, 0)
 
 def STOP():
 	p.ChangeDutyCycle(front)
+	pi.set_servo_pulsewidth(ESC3, 0)
+	pi.set_servo_pulsewidth(ESC1, 0)
+	pi.set_servo_pulsewidth(ESC2, 0)
+
+def BACK():
+	p.ChangeDutyCycle(front)
+	pi.set_servo_pulsewidth(ESC3, rspeed)
 	pi.set_servo_pulsewidth(ESC1, 0)
 	pi.set_servo_pulsewidth(ESC2, 0)
 
 def FRONT():
 	p.ChangeDutyCycle(front)
+	pi.set_servo_pulsewidth(ESC3, 0)
 	pi.set_servo_pulsewidth(ESC2, fspeed)
 	pi.set_servo_pulsewidth(ESC1, fspeed)
         #time.sleep(20)
@@ -55,4 +68,6 @@ while True:
 	    RIGHT()
 	elif inp == "s":
 	    STOP()
+	elif inp == "z":
+	    BACK()
 	
