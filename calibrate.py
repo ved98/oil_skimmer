@@ -4,8 +4,8 @@ os.system ("sudo pigpiod") #Launching GPIO library
 time.sleep(1) # As i said it is too impatient and so if this delay is removed you will get an error
 import pigpio
 
-ESC1=4
-ESC2=17 
+ESC1=17
+ESC2=18 
 pi = pigpio.pi();
 pi.set_servo_pulsewidth(ESC1, 0)
 pi.set_servo_pulsewidth(ESC2, 0)

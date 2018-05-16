@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 import time
 
 ESC1=17
-ESC2=4 
+ESC2=18 
 servo = 3
 
 pi = pigpio.pi();
@@ -15,8 +15,8 @@ GPIO.setup(servo, GPIO.OUT)
 front =7.5
 left=5.0
 right=10.0
-fspeed =900
-tspeed=780
+fspeed =1500
+tspeed=1500
 
 p = GPIO.PWM(servo, 50)
 GPIO.setup(servo, GPIO.OUT)
@@ -26,13 +26,13 @@ p.start(front)
 
 def LEFT():
 	p.ChangeDutyCycle(left)
-	pi.set_servo_pulsewidth(ESC1, tspeed)
+	pi.set_servo_pulsewidth(ESC1, 0)
 	pi.set_servo_pulsewidth(ESC2, tspeed)
 
 def RIGHT():
 	p.ChangeDutyCycle(right)
 	pi.set_servo_pulsewidth(ESC1, tspeed)
-	pi.set_servo_pulsewidth(ESC2, tspeed)
+	pi.set_servo_pulsewidth(ESC2, 0)
 
 def STOP():
 	p.ChangeDutyCycle(front)
