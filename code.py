@@ -42,7 +42,7 @@ def readImage():
     print total
     print total >= rows*cols/4
     print rows*cols/4
-    cv2.imwrite(sys.argv[1] + "_mask.jpg", mask)
+    cv2.imwrite("test_mask.jpg", mask)
     return res
     # mask = skimage.measure.block_reduce(mask, (5, 5), np.max)
 
@@ -102,13 +102,15 @@ def FRONT():
 	pi.set_servo_pulsewidth(ESC1, fspeed)
 	pi.set_servo_pulsewidth(ESC2, fspeed)
 
-angles = array[7.5,8.5,9.5,10.5,11.5,12.5,6.5,5.5,4.5,3.5,2.5]
+angles = np.array([7.5,8.5,9.5,10.5,11.5,12.5,6.5,5.5,4.5,3.5,2.5])
 ptr=0
 while True:
-    p.ChangeDutyCycle(angles[ptr])
-    os.system("raspistill -m -o test.jpg")
+    print("angle="+str((angles[ptr]-2.5)*18-90))
+    c.ChangeDutyCycle(angles[ptr])
+    time.sleep(1)
+    os.system("raspistill -v -o test.jpg")
     res=readImage()
-    if res:
+    if res==0:
         FRONT()
     else :
         ptr+=1
