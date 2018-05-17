@@ -16,9 +16,9 @@ GPIO.setup(servo, GPIO.OUT)
 front =7.5
 left=5.0
 right=10.0
-fspeed =780
-tspeed=780
-rspeed=780
+fspeed =800
+tspeed=800
+rspeed=1500
 
 p = GPIO.PWM(servo, 50)
 GPIO.setup(servo, GPIO.OUT)
@@ -40,7 +40,7 @@ def RIGHT():
 	pi.set_servo_pulsewidth(ESC2, 0)
 
 def STOP():
-	p.ChangeDutyCycle(front)
+	p.ChangeDutyCycle(12.5)
 	pi.set_servo_pulsewidth(ESC3, 0)
 	pi.set_servo_pulsewidth(ESC1, 0)
 	pi.set_servo_pulsewidth(ESC2, 0)
