@@ -9,11 +9,15 @@ import numpy as np
 import skimage.measure
 import picamera
 import io
+import socket
 
+HOST = '10.7.9.9'    # The remote host
+PORT = 50007
 ESC1=18
 ESC2=17 
 servo = 3
-camera =8 
+camera =8
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 pi = pigpio.pi();
 GPIO.setmode(GPIO.BOARD)
@@ -118,6 +122,10 @@ with picamera.PiCamera() as cam1:
     cam1.start_preview()
     time.sleep(2)
     while True:
+        s.connect((HOST, PORT))
+        s.sendall('1')
+        res2 = s.recv(1024)
+        s.close
         if res2==1 :
             ptr=0
             STOP()

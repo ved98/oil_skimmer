@@ -1,19 +1,12 @@
 import socket
 
-UDP_IP = "CHANGE TO PI'S IP"
-
-UDP_Port = 5005
-
-MESSAGE = "Hello, World!"
-
-print "UDP target IP:", UDP_IP
-
-print "UDP target port:", UDP_PORT
-
-print "message:", MESSAGE
-
-sock = socket.socket(socket.AF_INET, # Internet
-
-socket.SOCK_DGRAM) # UDP
-
-sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+HOST = '10.7.9.9'    # The remote host
+PORT = 50007              # The same port as used by the server
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((HOST, PORT))
+s.sendall('1')
+data = s.recv(1024)
+print (data)
+if data == '2':
+    s.sendall('3')
+s.close
