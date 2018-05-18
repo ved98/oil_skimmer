@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 import time
 
 ESC1=17
-ESC2=18 
+ESC2=27
 ESC3=22
 servo = 3
 

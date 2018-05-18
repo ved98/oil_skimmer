@@ -7,9 +7,9 @@ import numpy as np
 #for i in range(len(name)):
 img = cv2.imread("data/"+sys.argv[1], 1) # load image, 1 means load in RGB format
 # img = cv2.imread('abc.jpg')
-a = np.double(img)
-b = a 
-img = np.uint8(b)
+##a = np.double(img)
+##b = a 
+##img = np.uint8(b)
 hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV) # convert to hsv
 # h, s, v = cv2.split(hsv)
 # v+=2

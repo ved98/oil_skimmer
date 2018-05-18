@@ -5,7 +5,7 @@ time.sleep(1) # As i said it is too impatient and so if this delay is removed yo
 import pigpio
 
 ESC1=17
-ESC2=18
+ESC2=27
 ESC3=22
 pi = pigpio.pi();
 pi.set_servo_pulsewidth(ESC1, 0)
@@ -13,8 +13,8 @@ pi.set_servo_pulsewidth(ESC2, 0)
 pi.set_servo_pulsewidth(ESC3, 0)
 
 max_value = 2000 
-fmin_value = 835
-rmin_value = 835
+fmin_value = 700
+rmin_value = 700
 
 print("Disconnect the battery and press Enter")
 inp = raw_input()
