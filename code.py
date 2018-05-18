@@ -40,7 +40,7 @@ def readImage(stream):
     global inm
     data=np.fromstring(stream.getvalue(), dtype=np.uint8)
     img=cv2.imdecode(data,1)
-    cv2.imwrite(str(inm)+"test.jpg", img)
+    cv2.imwrite("data/"+str(inm)+"test.jpg", img)
     #img = cv2.imread("test.jpg", 1) # load image, 1 means load in RGB format
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV) # convert to hsv
 
@@ -113,14 +113,14 @@ def FRONT():
 
 angles = np.array([7.5,8.5,9.5,10.5,11.5,12.5,6.5,5.5,4.5,3.5,2.5])
 ptr=0
-while True:
-    with picamera.PiCamera() as cam1:
-        cam1.resolution = (200,200)
+with picamera.PiCamera() as cam1:
+    cam1.resolution = (200,200)
+    cam1.start_preview()
+    time.sleep(2)
+    while True:
         print("angle="+str((angles[ptr]-2.5)*18-90))
         c.ChangeDutyCycle(angles[ptr])
         time.sleep(0.5)
-        cam1.start_preview()
-        time.sleep(2)
         stream = io.BytesIO()
         cam1.capture(stream , format = 'jpeg')
         res=readImage(stream)
