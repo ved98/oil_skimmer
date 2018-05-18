@@ -116,12 +116,12 @@ ptr=0
 inm=0
 with picamera.PiCamera() as cam1:
     cam1.resolution = (200,200)
-    cam1.start_preview()
-    time.sleep(2)
     while True:
         print("angle="+str((angles[ptr]-2.5)*18-90))
         c.ChangeDutyCycle(angles[ptr])
         time.sleep(0.5)
+        cam1.start_preview()
+        time.sleep(2)
         cam1.capture(stream , format = 'jpeg')
         res=readImage(stream)
         if res==0:

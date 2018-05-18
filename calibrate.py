@@ -13,7 +13,8 @@ pi.set_servo_pulsewidth(ESC2, 0)
 pi.set_servo_pulsewidth(ESC3, 0)
 
 max_value = 2000 
-min_value = 835
+fmin_value = 835
+rmin_value = 835
 
 print("Disconnect the battery and press Enter")
 inp = raw_input()
@@ -24,16 +25,19 @@ if inp == '':
     print("Connect the battery NOW.. you will here two beeps, then wait for a gradual falling tone then press Enter")
     inp = raw_input()
     if inp == '':            
-        pi.set_servo_pulsewidth(ESC1, min_value)
-        pi.set_servo_pulsewidth(ESC2, min_value)
-        pi.set_servo_pulsewidth(ESC3, 1100)
+        pi.set_servo_pulsewidth(ESC1, fmin_value)
+        pi.set_servo_pulsewidth(ESC2, fmin_value)
+        pi.set_servo_pulsewidth(ESC3, rmin_value)
         time.sleep(12)
         pi.set_servo_pulsewidth(ESC1, 0)
         pi.set_servo_pulsewidth(ESC2, 0)
         pi.set_servo_pulsewidth(ESC3, 0)
         time.sleep(2)
-        pi.set_servo_pulsewidth(ESC1, min_value)
-        pi.set_servo_pulsewidth(ESC2, min_value)
-        pi.set_servo_pulsewidth(ESC3, 1100)
+        pi.set_servo_pulsewidth(ESC1, fmin_value)
+        pi.set_servo_pulsewidth(ESC2, fmin_value)
+        pi.set_servo_pulsewidth(ESC3, rmin_value)
         time.sleep(1)
+        pi.set_servo_pulsewidth(ESC1, 0)
+        pi.set_servo_pulsewidth(ESC2, 0)
+        pi.set_servo_pulsewidth(ESC3, 0)
 print("Calibrated")
