@@ -6,7 +6,7 @@ import time
 
 ESC1=17
 ESC2=18 
-ESC3=27
+ESC3=22
 servo = 3
 
 pi = pigpio.pi();
@@ -16,8 +16,8 @@ GPIO.setup(servo, GPIO.OUT)
 front =7.5
 left=5.0
 right=10.0
-fspeed =800
-tspeed=800
+fspeed =1000
+tspeed=1700
 rspeed=1500
 
 p = GPIO.PWM(servo, 50)
@@ -56,7 +56,6 @@ def FRONT():
 	pi.set_servo_pulsewidth(ESC3, 0)
 	pi.set_servo_pulsewidth(ESC2, fspeed)
 	pi.set_servo_pulsewidth(ESC1, fspeed)
-        #time.sleep(20)
         
 while True:
 	inp = raw_input()

@@ -4,8 +4,8 @@ import time   #importing time library to make Rpi wait because its too impatient
 #time.sleep(1) # As i said it is too impatient and so if this delay is removed you will get an error
 import pigpio
 
-ESC1=4
-ESC2=17 
+ESC1=18
+ESC2=22
 pi = pigpio.pi();
 pi.set_servo_pulsewidth(ESC1, 0)
 pi.set_servo_pulsewidth(ESC2, 0)
