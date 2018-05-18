@@ -15,7 +15,6 @@ ESC2=17
 servo = 3
 camera =8 
 
-
 pi = pigpio.pi();
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(servo, GPIO.OUT)
@@ -113,22 +112,59 @@ def FRONT():
 
 angles = np.array([7.5,8.5,9.5,10.5,11.5,12.5,6.5,5.5,4.5,3.5,2.5])
 ptr=0
+status=0
 with picamera.PiCamera() as cam1:
     cam1.resolution = (200,200)
     cam1.start_preview()
     time.sleep(2)
     while True:
-        print("angle="+str((angles[ptr]-2.5)*18-90))
-        c.ChangeDutyCycle(angles[ptr])
-        time.sleep(0.5)
-        stream = io.BytesIO()
-        cam1.capture(stream , format = 'jpeg')
-        res=readImage(stream)
-        if res==0:
-            FRONT()
-        else :
-            ptr+=1
-        if ptr == len(angles):
+        if res2==1 :
             ptr=0
-	
+            STOP()
+            if status == 5
+                status=0
+            else
+                status=3
+        elif status == 3 : 
+            BACK()
+            time.sleep(1.5)
+            STOP()
+            status = 4
+        elif status ==4 :
+            FRONT()
+            time.sleep(1.5)
+            STOP()
+            status=5
+        elif status==0 :
+            c.ChangeDutyCycle(angles[ptr])
+            time.sleep(0.5)
+            stream = io.BytesIO()
+            cam1.capture(stream , format = 'jpeg')
+            res1=readImage(stream)
+            if res1==1:
+                status=1
+                if ptr > 5 :
+                    delay = ptr-5
+                    BACK()
+                    time.sleep(1.5)
+                    LEFT()
+                    time.sleep(delay)
+                    FRONT()
+                    ptr=0
+                else :
+                    delay = ptr
+                    BACK()
+                    time.sleep(1.5)
+                    RIGHT()
+                    time.sleep(delay)
+                    FRONT()
+                    ptr=0
+            else :
+                ptr+=1
+            if ptr == len(angles):
+                ptr=0
+        else :
+            status =0
+
+    	
 	
