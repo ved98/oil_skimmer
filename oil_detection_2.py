@@ -23,9 +23,10 @@ def blackPercentage():
 	       	else:
 	       		count2+=1
 	       		
-	return count2*100/(count1+count2)
+	print count2*100/(count1+count2)
 
 def detectBoundaries():
+	count = 0
 	for x in xrange(0, cols):
 		flag = -1
 		for y in xrange(0, rows):
@@ -38,6 +39,8 @@ def detectBoundaries():
 			for z in xrange(0, flag-1):
 				mask_brick[z][x] = 127
 				mask[z][x] = 127
+				count += 1
+	return count
 
 img = cv2.imread(sys.argv[1], 1) # load image, 1 means load in RGB format
 
@@ -71,7 +74,10 @@ cols = mask.shape[1]
 print rows
 print cols
 
-detectBoundaries()
+count = detectBoundaries()
+if(count/(rows*cols)*100 > 30):
+	backwards()
+	sleep(3)
 
 blackPercentage()
 
